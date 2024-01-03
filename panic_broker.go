@@ -7,10 +7,10 @@ import (
 	"runtime/debug"
 )
 
-// PanicBroker returns a Middleware that uses slog to write the debug stack to
+// PanicBroker returns a middleware that uses slog to write the debug stack to
 // stderr and run broker's ServeHTTP if a panic originates after the handler
 // calls ServeHTTP. Use it implement graceful recovery.
-func PanicBroker(broker http.Handler) Middleware {
+func PanicBroker(broker http.Handler) func(h http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			defer func() {

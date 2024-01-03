@@ -4,9 +4,9 @@ import (
 	"net/http"
 )
 
-// SecureHeaders returns a Middleware that sets a CSP policy and other default
+// SecureHeaders returns a middleware that sets a CSP policy and other default
 // security headers consistent with OWASP guidance.
-func SecureHeaders(csp string) Middleware {
+func SecureHeaders(csp string) func(h http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Security-Policy", csp)
